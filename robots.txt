@@ -3,5 +3,5 @@ User-agent: *
 
 Allow: /
 
-Sitemap: http://jadelin.top/sitemap.xml
-Sitemap: http://jadelin.top/baidusitemap.xml
+Sitemap: http://yunhea.com/sitemap.xml
+Sitemap: http://yunhea.com/baidusitemap.xml
