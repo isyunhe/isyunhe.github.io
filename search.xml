@@ -4,6 +4,19 @@
   
     
     <entry>
+      <title></title>
+      <link href="/2022/12/14/cve-2021-36260-hai-kang-wei-shi-she-xiang-tou-li-yong/she-xiang-tou/"/>
+      <url>/2022/12/14/cve-2021-36260-hai-kang-wei-shi-she-xiang-tou-li-yong/she-xiang-tou/</url>
+      
+        <content type="html"><![CDATA[<h2 id="0x01-摸鱼"><a href="#0x01-摸鱼" class="headerlink" title="0x01 摸鱼"></a>0x01 摸鱼</h2><p>哎！主要是上班的时候摸鱼习惯性的看了下微信公众号，一下不小心看见了这个项目.</p><p><img src="img/1.png"></p><p>​    附上地址：<a href="https://github.com/jorhelp/Ingram">https://github.com/jorhelp/Ingram</a></p><h2 id="0x02-复现"><a href="#0x02-复现" class="headerlink" title="0x02 复现"></a>0x02 复现</h2><p>习惯性的进行了下复现，因为之前扫公司内网的时候记得是有两台摄像头的设备的。</p><p><img src="img/2.png"></p><p>120和250两台机器。</p><p>用上面那个项目扫了下两台机器。扫出这个exp。</p><p><img src="img/3.png"></p><p>这个exp我一看感觉有点熟悉，然后象征性的在本机搜索下看能不能找到，</p><p><img src="img/4.png"></p><p>果然是有的哈哈哈哈！！！</p><h2 id="0x03-CVE-2021-36260"><a href="#0x03-CVE-2021-36260" class="headerlink" title="0x03 CVE-2021-36260"></a>0x03 CVE-2021-36260</h2><p>直接exp打<img src="img/5.png"></p><p>当时第一时间shell弹回来我是很开心的，满脑子的上线。可惜不是我们看后面</p><p>因为这个exp是弹回来的一个低权限的用户，里面限制了很多命令，</p><p>当时准备提权，但是一些命令如：wget，sudo，nmap，nc，什么的一些常见的提权都不能提。</p><p>想着去找一波密码 cat /etc/passwd 、cat /etc/shadow、等等一些操作。</p><p>当时cat /etc/shadow是没有的，但是cat /etc/passwd是有东西得。</p><p><img src="img/6.png"></p><p>看到这一串我也不知道什么东西，在网上查了半天的资料，后面抱着试一试的姿势去cmd5.com去查了一下，一看有戏。我一看首冲要100起充，充钱是不可能，抱着去群里白嫖，果然让我在一哥群里白嫖出来了密文：abcd12345  是不是很戏剧性。确实比较戏剧性。</p><p><img src="img/7.png"></p><h2 id="0x04-收尾"><a href="#0x04-收尾" class="headerlink" title="0x04 收尾"></a>0x04 收尾</h2><p>其实当时这个exp我很早就拿到了，上面说到了，有两台摄像头，这两台摄像头版本是不对的，一台是2018的一台是2020的。我当时用exp只打了2018的这台，却没打2020这台。</p><p>这两台的密码都是一样的。至于为什么我也不知道，哈哈哈！！</p><p>贴图</p><p><img src="img/8.png"></p><p><img src="img/9.png"></p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>shellcode初探过火绒</title>
       <link href="/2022/08/19/shellcode-chu-tan/"/>
       <url>/2022/08/19/shellcode-chu-tan/</url>
@@ -84,6 +97,31 @@
       <url>/2022/05/30/bi-sai-poc/</url>
       
         <content type="html"><![CDATA[<h1 id="web"><a href="#web" class="headerlink" title="web"></a>web</h1><h2 id="web1"><a href="#web1" class="headerlink" title="web1"></a>web1</h2><p>robots.txt协议</p><p><img src="web1.png"></p><p><img src="web1-1.png"></p><h2 id="web2"><a href="#web2" class="headerlink" title="web2"></a>web2</h2><p>简单sql注入</p><p>先查看有几个字段</p><p>1’ order by 4#</p><p><img src="web2.png"></p><p>联合查询，查数据库</p><p>?id=-1’ union select 1,2,3,database()#</p><p><img src="web2-1.png"></p><p>联合查询数据库的表</p><p>id=-1’ union select 1,2,3,group_concat(table_name) from information_schema.tables where table_schema=database()#</p><p><img src="web2-2.png"></p><p>查数据库中表的字段</p><p>id=-1’ union select 1,2,3,group_concat(column_name) from information_schema.columns where table_name=’fl4g’#</p><p><img src="web2-3.png"></p><p>查询skctf_flag中的数据</p><p>id=-1’ union select 1,2,3,skctf_flag from fl4g#</p><p><img src="web2-4.png"></p><h2 id="web3"><a href="#web3" class="headerlink" title="web3"></a>web3</h2><p>查看源代码发现只能上传图片</p><p><img src="web3.png"></p><p>上传图片发现文件上传成功！filename：1.jpg<br>但要给我一个give_me_flag.php 我才给你flag!</p><p><img src="web3-1.png"></p><p>bp抓包重放，send之后发现</p><p><img src="web3-2.png"></p><p>我们在数据里面的最下面加入givemeflag</p><p><img src="web3-3.png"></p><p>scend之后得到flag</p><p><img src="web3-4.png"></p><h2 id="web4"><a href="#web4" class="headerlink" title="web4"></a>web4</h2><pre><code>if(!isset($_GET['flag']) &amp;&amp; !isset($_POST['flag'])){    exit($msg_giveme);}</code></pre><p>上面代码说明，不管是POST还是GER，必须带有’flag’参数。通过这里往下看</p><pre><code>foreach ($_POST as $key =&gt; $value) {    $$key = $value;</code></pre><p>上面的源码这里可以变量覆盖</p><p>比如说传入<code>flag=cc</code>,则<code>$flag=$cc</code></p><p>虽然传入flag参数后flag会被覆盖，但可以用别的变量保存flag。</p><p>传入<code>a=flag&amp;flag=a</code>则<code>$a=$flag,$flag=$a</code></p><p><code>payload：?a=flag&amp;flag=a</code></p><h1 id="MISC"><a href="#MISC" class="headerlink" title="MISC"></a>MISC</h1><h2 id="misc1"><a href="#misc1" class="headerlink" title="misc1"></a>misc1</h2><p>notepad++ 或者winhex或者记事本打开</p><p>直接搜索flag</p><p><img src="misc1.png"></p><h2 id="misc2"><a href="#misc2" class="headerlink" title="misc2"></a>misc2</h2><p>解压得到两个文件        flag.zip（无法解压密码发现，里面有个文件和题目名字一样）猜测是明文攻击</p><p>先将 <code>Yahiko.png</code> zip压缩一下（必须要用<code>winrar</code>因为加密文件也是winrar压缩的）</p><p><img src="misc.png" alt="misc"></p><p>使用<code>ARCHPR</code> 工具</p><p><img src="misc5.png" alt="misc5"></p><p>点击开始之后，过了一会在点击暂停,点击确定,自动跳到保存文件</p><p><img src="misc5-1.png" alt="misc5-1"></p><p>解压进docx 文件</p><p><img src="misc5-3.png" alt="misc5-3"></p><p><img src="misc5-2.png" alt="misc5-2"></p><p>修改颜色</p><p><img src="5-2.png" alt="5-2"></p><h2 id="misc3"><a href="#misc3" class="headerlink" title="misc3"></a>misc3</h2><p>用foremost提取出一张bmp图片，</p><p><img src="misc3.png"></p><p>用stegsolve打开，Analyse选择Data Extract，勾选r,g,b的三个0通道，save bin得到flag的图片。</p><img src="misc3-1.png" style="zoom:50%;"><p>flag</p><img src="misc3-2.png" style="zoom:50%;"><h2 id="misc4"><a href="#misc4" class="headerlink" title="misc4"></a>misc4</h2><p>用winhex打开搜索ctf</p><p><img src="misc4.png"></p><h1 id="CRYPTO"><a href="#CRYPTO" class="headerlink" title="CRYPTO"></a>CRYPTO</h1><h2 id="CRYPTO1"><a href="#CRYPTO1" class="headerlink" title="CRYPTO1"></a>CRYPTO1</h2><p>下载打开发现有个txt，打开进去发现，有一串看不懂的代码</p><p>浏览器f12，复制到console中确定</p><p><img src="mima1.png"></p><h2 id="CRYPTO2"><a href="#CRYPTO2" class="headerlink" title="CRYPTO2"></a>CRYPTO2</h2><p>下载打开发现凯撒关键字猜测凯撒密码，直接在线解码</p><p><a href="http://www.hiencode.com/"></a></p><p>key输入1得到flag</p><h2 id="CRYPTO3"><a href="#CRYPTO3" class="headerlink" title="CRYPTO3"></a>CRYPTO3</h2><pre><code>Caesar bought 64 rabbits（中文意思是凯撒买了64之兔子）</code></pre><p>猜测是套娃，加密顺序可能是凯撒—&gt;base64—&gt;rabbits三种加密</p><p><a href="http://www.hiencode.com/"></a></p><p><a href="http://www.jsons.cn/rabbitencrypt/"></a></p><p>按着题目给的意思，我们要倒着去解密，显示rabbit，64只兔子可能是复数+个s，Rabbits</p><p><img src="mima2.png"></p><p>在是base64</p><p><img src="mima3.png"></p><p>在是凯撒密码遍历1</p><p><img src="mima3-1.png"></p><h1 id="逆向"><a href="#逆向" class="headerlink" title="逆向"></a>逆向</h1><p>ida打开文件，找到main函数f5，就能看到flag</p><p><img src="nixiang.png"></p><p>得到的像个base64，base64解密下得到flag。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> -web渗透 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> -web渗透 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>CVE-2021-36260 海康威视摄像头利用</title>
+      <link href="/2021/12/14/cve-2021-36260-hai-kang-wei-shi-she-xiang-tou-li-yong/"/>
+      <url>/2021/12/14/cve-2021-36260-hai-kang-wei-shi-she-xiang-tou-li-yong/</url>
+      
+        <content type="html"><![CDATA[<h2 id="0x01-摸鱼"><a href="#0x01-摸鱼" class="headerlink" title="0x01 摸鱼"></a>0x01 摸鱼</h2><p>哎！主要是上班的时候摸鱼习惯性的看了下微信公众号，一下不小心看见了这个项目.</p><p><img src="img%5C1.png"></p><p>​    附上地址：<a href="https://github.com/jorhelp/Ingram">https://github.com/jorhelp/Ingram</a></p><h2 id="0x02-复现"><a href="#0x02-复现" class="headerlink" title="0x02 复现"></a>0x02 复现</h2><p>习惯性的进行了下复现，因为之前扫公司内网的时候记得是有两台摄像头的设备的。</p><p><img src="img%5C2.png"></p><p>120和250两台机器。</p><p>用上面那个项目扫了下两台机器。扫出这个exp。</p><p><img src="img%5C3.png"></p><p>这个exp我一看感觉有点熟悉，然后象征性的在本机搜索下看能不能找到，</p><p><img src="img%5C4.png"></p><p>果然是有的哈哈哈哈！！！</p><h2 id="0x03-CVE-2021-36260"><a href="#0x03-CVE-2021-36260" class="headerlink" title="0x03 CVE-2021-36260"></a>0x03 CVE-2021-36260</h2><p>直接exp打<img src="img%5C5.png"></p><p>当时第一时间shell弹回来我是很开心的，满脑子的上线。可惜不是我们看后面</p><p>因为这个exp是弹回来的一个低权限的用户，里面限制了很多命令，</p><p>当时准备提权，但是一些命令如：wget，sudo，nmap，nc，什么的一些常见的提权都不能提。</p><p>想着去找一波密码 cat /etc/passwd 、cat /etc/shadow、等等一些操作。</p><p>当时cat /etc/shadow是没有的，但是cat /etc/passwd是有东西得。</p><p><img src="img%5C6.png"></p><p>看到这一串我也不知道什么东西，在网上查了半天的资料，后面抱着试一试的姿势去cmd5.com去查了一下，一看有戏。我一看首冲要100起充，充钱是不可能，抱着去群里白嫖，果然让我在一哥群里白嫖出来了密文：abcd12345  是不是很戏剧性。确实比较戏剧性。</p><p><img src="img%5C7.png"></p><h2 id="0x04-收尾"><a href="#0x04-收尾" class="headerlink" title="0x04 收尾"></a>0x04 收尾</h2><p>其实当时这个exp我很早就拿到了，上面说到了，有两台摄像头，这两台摄像头版本是不对的，一台是2018的一台是2020的。我当时用exp只打了2018的这台，却没打2020这台。</p><p>这两台的密码都是一样的。至于为什么我也不知道，哈哈哈！！</p><p>贴图</p><p><img src="img%5C8.png"></p><p><img src="img%5C9.png"></p>]]></content>
       
       
       <categories>

@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://yunhea.com/2021/12/14/cve-2021-36260-hai-kang-wei-shi-she-xiang-tou-li-yong/</loc>
+    <lastmod>2022-12-14</lastmod>
+  </url>
+  <url>
+    <loc>http://yunhea.com/2022/12/14/cve-2021-36260-hai-kang-wei-shi-she-xiang-tou-li-yong/she-xiang-tou/</loc>
+    <lastmod>2022-12-14</lastmod>
+  </url>
+  <url>
     <loc>http://yunhea.com/2022/08/19/shellcode-chu-tan/</loc>
     <lastmod>2022-08-18</lastmod>
   </url>
